@@ -8,7 +8,6 @@ import (
 
 // Jinres is the envelope used for JSON responses when writing to gin.Context.
 type Jinres struct {
-	ctx      *gin.Context
 	Status   int    `json:"status"`
 	Message  string `json:"message"`
 	Response any    `json:"response,omitempty"`
@@ -27,8 +26,8 @@ type Options struct {
 }
 
 // NewJinres returns a Jinres helper bound to the given gin.Context.
-func NewJinres(ctx *gin.Context) *Jinres {
-	return &Jinres{ctx: ctx}
+func NewJinres() *Jinres {
+	return &Jinres{}
 }
 
 // Message sets a custom message for the response.
@@ -46,8 +45,8 @@ func (o *Options) Response(v any) *Options {
 
 // Done writes the response to the bound gin.Context and aborts the request.
 // It uses the prefilled status/message and any provided response payload.
-func (o *Options) Done() {
-	if o == nil || o.j == nil || o.j.ctx == nil {
+func (o *Options) Done(ctx *gin.Context) {
+	if o == nil || o.j == nil || ctx == nil {
 		return
 	}
 
@@ -57,7 +56,7 @@ func (o *Options) Done() {
 		Response: o.resp,
 	}
 
-	o.j.ctx.AbortWithStatusJSON(o.status, result)
+	ctx.AbortWithStatusJSON(o.status, result)
 }
 
 // 1xx Informational

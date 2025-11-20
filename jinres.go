@@ -61,6 +61,7 @@ func (o *Options) Done() {
 }
 
 // 1xx Informational
+
 // Continue returns an Options builder prefilled for HTTP 100 Continue.
 // Note: Go methods must be invoked with parentheses, e.g. jrs.Continue().Done().
 func (j *Jinres) Continue() *Options {
@@ -80,6 +81,7 @@ func (j *Jinres) EarlyHints() *Options {
 }
 
 // 2xx Success
+
 func (j *Jinres) OK() *Options { return &Options{j: j, status: http.StatusOK, message: "OK"} }
 func (j *Jinres) Created() *Options {
 	return &Options{j: j, status: http.StatusCreated, message: "Created"}
@@ -110,6 +112,7 @@ func (j *Jinres) IMUsed() *Options {
 }
 
 // 3xx Redirection
+
 func (j *Jinres) MultipleChoices() *Options {
 	return &Options{j: j, status: http.StatusMultipleChoices, message: "Multiple Choices"}
 }
@@ -134,6 +137,7 @@ func (j *Jinres) PermanentRedirect() *Options {
 }
 
 // 4xx Client Error
+
 func (j *Jinres) BadRequest() *Options {
 	return &Options{j: j, status: http.StatusBadRequest, message: "Bad Request"}
 }
@@ -221,6 +225,7 @@ func (j *Jinres) UnavailableForLegalReasons() *Options {
 }
 
 // 5xx Server Error
+
 func (j *Jinres) InternalServerError() *Options {
 	return &Options{j: j, status: http.StatusInternalServerError, message: "Internal Server Error"}
 }

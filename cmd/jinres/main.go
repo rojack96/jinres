@@ -14,7 +14,7 @@ const defaultOut = "status_structs.go"
 
 func usage() {
 	fmt.Fprintln(os.Stderr, "Usage:")
-	fmt.Fprintln(os.Stderr, "  jinres init [-o output]")
+	fmt.Fprintln(os.Stderr, "  jinres init [-o output][-p package]")
 	fmt.Fprintln(os.Stderr, "")
 	fmt.Fprintln(os.Stderr, "Commands:")
 	fmt.Fprintln(os.Stderr, "  init    generate status structs file (default output: status_structs.go)")

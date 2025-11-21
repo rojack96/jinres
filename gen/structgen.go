@@ -17,7 +17,7 @@ import (
 //	}
 //
 // outPath should be a writable path (e.g. "status_structs_gen.go").
-func GenerateStructsFile(outPath string) error {
+func GenerateStructsFile(outPath string, packageName *string) error {
 	entries := []struct {
 		Name string
 		Code int
@@ -93,7 +93,12 @@ func GenerateStructsFile(outPath string) error {
 	}
 
 	var b strings.Builder
-	b.WriteString("package jinres\n\n")
+	pkg := "package statusstructs\n\n"
+	if packageName != nil && *packageName != "" {
+		pkg = fmt.Sprintf("package %s\n\n", *packageName)
+	}
+
+	b.WriteString(pkg)
 
 	for _, e := range entries {
 		// struct comment

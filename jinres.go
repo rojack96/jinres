@@ -70,5 +70,9 @@ func (o *Options) Done(ctx *gin.Context) {
 		result[k] = v
 	}
 
-	ctx.AbortWithStatusJSON(o.status, result)
+	if o.status >= 400 {
+		ctx.AbortWithStatusJSON(o.status, result)
+	} else {
+		ctx.JSON(o.status, result)
+	}
 }

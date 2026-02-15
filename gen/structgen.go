@@ -17,7 +17,7 @@ import (
 //	}
 //
 // outPath should be a writable path (e.g. "status_structs_gen.go").
-func GenerateStructsFile(outPath string, packageName *string) error {
+func GenerateStructsFile(outPath string, packageName *string, swaggo bool) error {
 	entries := []struct {
 		Name string
 		Code int
@@ -111,8 +111,12 @@ func GenerateStructsFile(outPath string, packageName *string) error {
 		fmt.Fprintf(&b, "} ")
 
 		// Swag name comment: struct name + "Response"
-		swagName := e.Name + "Response"
-		fmt.Fprintf(&b, "// @name %s\n\n", swagName)
+		if swaggo {
+			swagName := e.Name + "Response"
+			fmt.Fprintf(&b, "// @name %s\n\n", swagName)
+		} else {
+			fmt.Fprintf(&b, "\n")
+		}
 	}
 
 	if err := os.WriteFile(outPath, []byte(b.String()), 0644); err != nil {

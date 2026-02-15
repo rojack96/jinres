@@ -14,7 +14,7 @@ const defaultOut = "status_structs.go"
 
 func usage() {
 	fmt.Fprintln(os.Stderr, "Usage:")
-	fmt.Fprintln(os.Stderr, "  jinres init [-o output][-p package]")
+	fmt.Fprintln(os.Stderr, "  jinres init [-o output][-p package][-swaggo]")
 	fmt.Fprintln(os.Stderr, "")
 	fmt.Fprintln(os.Stderr, "Commands:")
 	fmt.Fprintln(os.Stderr, "  init    generate status structs file (default output: status_structs.go)")
@@ -32,13 +32,14 @@ func main() {
 		initCmd := flag.NewFlagSet("init", flag.ExitOnError)
 		out := initCmd.String("o", defaultOut, "output file path")
 		pkg := initCmd.String("p", "statusstructs", "package name for the generated file")
+		swaggo := initCmd.Bool("swaggo", false, "include swaggo @name comments")
 		// parse flags for init command (skip program name and command)
 		if err := initCmd.Parse(os.Args[2:]); err != nil {
 			log.Fatal(err)
 		}
 
 		fmt.Printf("generating status structs file at %s...\n", *out)
-		if err := gen.GenerateStructsFile(*out, pkg); err != nil {
+		if err := gen.GenerateStructsFile(*out, pkg, *swaggo); err != nil {
 			log.Fatalf("failed to generate file: %v", err)
 		}
 		fmt.Printf("generated %s\n", *out)
